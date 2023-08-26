@@ -1,9 +1,7 @@
 'use strict';
 
 function fibsRec(n) {
-   if (n < 0) {
-      return 'Please enter a positive number';
-   }
+   if (n < 1 || isNaN(n)) return 'Please enter a valid array length';
 
    const limit = n;
    let array = [0, 1];
