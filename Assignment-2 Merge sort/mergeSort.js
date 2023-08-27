@@ -1,24 +1,31 @@
 // merge sort function
 
 function mergeSort(array) {
+   // base case
    if (array.length === 1) {
       return array;
    }
 
+   // split array to two parts
    const midIndex = Math.floor(array.length / 2);
    const firstPart = array.slice(0, midIndex);
    const secondPart = array.slice(midIndex);
 
-   const sortedHalf1 = mergeSort(firstPart);
-   const sortedHalf2 = mergeSort(secondPart);
+   //sort the result parts recursively
+   const sortedFirstPart = mergeSort(firstPart);
+   const sortedSecondPart = mergeSort(secondPart);
 
-   return merge(sortedHalf1, sortedHalf2);
+   // merge the sorted parts
+   return merge(sortedFirstPart, sortedSecondPart);
 }
 
-const unsortedArray = [8, 5, 10, 4, 9, 3, 6, 1, 2];
+const unsortedArray = [8, 5, 10, 4, 9, 3, 6, 1, 2, -6, -7];
 
-console.log(mergeSort(unsortedArray));
+const result = mergeSort(unsortedArray);
 
+console.log(result);
+
+// merge function
 // my  solution -recursive-
 
 function merge(array1, array2) {
@@ -41,6 +48,7 @@ function merge(array1, array2) {
    return resultArray;
 }
 
+// merge function
 // following course suggested video -iterative-
 
 function merge2(array1, array2) {
