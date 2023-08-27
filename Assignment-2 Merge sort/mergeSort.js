@@ -8,15 +8,15 @@ function mergeSort(array) {
 
    // split array to two parts
    const midIndex = Math.floor(array.length / 2);
-   const firstPart = array.slice(0, midIndex);
-   const secondPart = array.slice(midIndex);
+   let firstPart = array.slice(0, midIndex);
+   let secondPart = array.slice(midIndex);
 
    //sort the result parts recursively
-   const sortedFirstPart = mergeSort(firstPart);
-   const sortedSecondPart = mergeSort(secondPart);
+   firstPart = mergeSort(firstPart);
+   secondPart = mergeSort(secondPart);
 
    // merge the sorted parts
-   return merge(sortedFirstPart, sortedSecondPart);
+   return merge(firstPart, secondPart);
 }
 
 const unsortedArray = [8, 5, 10, 4, 9, 3, 6, 1, 2, -6, -7];
