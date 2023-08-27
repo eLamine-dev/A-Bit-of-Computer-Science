@@ -1,4 +1,25 @@
-// my function recursive - solution
+// merge sort function
+
+function mergeSort(array) {
+   if (array.length === 1) {
+      return array;
+   }
+
+   const midIndex = Math.floor(array.length / 2);
+   const firstPart = array.slice(0, midIndex);
+   const secondPart = array.slice(midIndex);
+
+   const sortedHalf1 = mergeSort(firstPart);
+   const sortedHalf2 = mergeSort(secondPart);
+
+   return merge(sortedHalf1, sortedHalf2);
+}
+
+const unsortedArray = [8, 5, 10, 4, 9, 3, 6, 1, 2];
+
+console.log(mergeSort(unsortedArray));
+
+// my  solution -recursive-
 
 function merge(array1, array2) {
    let resultArray = [];
@@ -14,15 +35,13 @@ function merge(array1, array2) {
          if (array1.length > 0) resultArray.push(array1.shift());
          if (array2.length > 0) resultArray.push(array2.shift());
       }
-
       helper(array1, array2);
-      return resultArray;
    }
-
-   return helper(array1, array2);
+   helper(array1, array2);
+   return resultArray;
 }
 
-// following course suggested video
+// following course suggested video -iterative-
 
 function merge2(array1, array2) {
    let resultArray = [];
@@ -48,7 +67,3 @@ function merge2(array1, array2) {
 
    return resultArray;
 }
-
-const resultArray = merge([0, 1, 5, 8], [2, 3, 6]);
-
-console.log(resultArray);
