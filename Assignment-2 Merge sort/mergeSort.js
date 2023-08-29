@@ -26,9 +26,27 @@ const result = mergeSort(unsortedArray);
 console.log(result);
 
 // merge function
-// my  solution -recursive-
+// my  solution -recursive- less efficient
 
-function merge(array1, array2) {
+function merge(array1, array2, i = 0, j = 0, resultArray = []) {
+   if (i >= array1.length) {
+      return resultArray.concat(array2.slice(j));
+   }
+
+   if (j >= array2.length) {
+      return resultArray.concat(array1.slice(i));
+   }
+
+   if (array1[i] < array2[j]) {
+      resultArray.push(array1[i]);
+      return merge(array1, array2, i + 1, j, resultArray);
+   } else {
+      resultArray.push(array2[j]);
+      return merge(array1, array2, i, j + 1, resultArray);
+   }
+}
+
+function merge2(array1, array2) {
    let resultArray = [];
 
    function helper(array1, array2) {
@@ -51,7 +69,7 @@ function merge(array1, array2) {
 // merge function
 // following course suggested video -iterative-
 
-function merge2(array1, array2) {
+function merge3(array1, array2) {
    let resultArray = [];
    let i = 0,
       j = 0;
