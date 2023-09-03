@@ -1,2 +1,1 @@
-# Recursion-
-Recursion Assignments of the odin project a bit of computer science chapter
+Assignments from The Odin Project "a bit of computer science" chapter.
