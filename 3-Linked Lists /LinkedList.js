@@ -207,7 +207,6 @@ myList.insertAt('inserted to empty list', 0);
 console.log(myList.toString());
 
 // linked list using recursive methods
-
 const LinkedListRecursiveMethods = function () {
    const list = {};
    list.head = null;
