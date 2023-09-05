@@ -1,4 +1,5 @@
 import createNode from './node.js';
+import mergeSort from '../2-Merge sort/mergeSort.js';
 
 const buildTree = (array, start = 0, end = array.length - 1) => {
    if (start > end) return null;
@@ -13,9 +14,12 @@ const buildTree = (array, start = 0, end = array.length - 1) => {
 };
 
 function Tree(array) {
-   let root = buildTree(array);
+   let tree = {};
+   let sortedArray = mergeSort(array);
 
-   return root;
+   tree.root = buildTree(sortedArray);
+
+   return tree;
 }
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
@@ -31,6 +35,5 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
    }
 };
 
-let treeRoot = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-
-prettyPrint(treeRoot);
+let myTree = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+prettyPrint(myTree.root);

@@ -1,6 +1,6 @@
 // merge sort function
 
-function mergeSort(array) {
+export default function mergeSort(array) {
    // base case
    if (array.length === 1) {
       return array;
@@ -19,16 +19,50 @@ function mergeSort(array) {
    return merge(firstPart, secondPart);
 }
 
-const unsortedArray = [8, 5, 10, 4, 9, 3, 6, 1, 2, -6, -7];
+// merge function
+// following course suggested video -iterative-
+// delete repeated numbers -to be used in BST assignment
 
-const result = mergeSort(unsortedArray);
+function merge(array1, array2) {
+   let resultArray = [];
+   let i = 0,
+      j = 0;
 
-console.log(result);
+   while (i < array1.length && j < array2.length) {
+      if (array1[i] === array2[j]) {
+         resultArray.push(array1[i]);
+         // keep only one of the repeated numbers
+         i++;
+         j++;
+      } else if (array1[i] < array2[j]) {
+         resultArray.push(array1[i]);
+         i++;
+      } else {
+         resultArray.push(array2[j]);
+         j++;
+      }
+   }
+
+   for (i; i < array1.length; i++) {
+      resultArray.push(array1[i]);
+   }
+   for (j; j < array2.length; j++) {
+      resultArray.push(array2[j]);
+   }
+
+   return resultArray;
+}
+
+// const unsortedArray = [8, 5, 7, 10, 4, 9, 3, 7, 6, 1, 2, -6, -7];
+
+// const result = mergeSort(unsortedArray);
+
+// console.log(result);
 
 // merge function
 // my  solution -recursive- less efficient
 
-function merge(array1, array2, i = 0, j = 0, resultArray = []) {
+function merge2(array1, array2, i = 0, j = 0, resultArray = []) {
    if (i >= array1.length) {
       return resultArray.concat(array2.slice(j));
    }
@@ -46,7 +80,7 @@ function merge(array1, array2, i = 0, j = 0, resultArray = []) {
    }
 }
 
-function merge2(array1, array2) {
+function merge3(array1, array2) {
    let resultArray = [];
 
    function helper(array1, array2) {
@@ -63,33 +97,5 @@ function merge2(array1, array2) {
       helper(array1, array2);
    }
    helper(array1, array2);
-   return resultArray;
-}
-
-// merge function
-// following course suggested video -iterative-
-
-function merge3(array1, array2) {
-   let resultArray = [];
-   let i = 0,
-      j = 0;
-
-   while (i < array1.length && j < array2.length) {
-      if (array1[i] < array2[j]) {
-         resultArray.push(array1[i]);
-         i++;
-      } else {
-         resultArray.push(array2[j]);
-         j++;
-      }
-   }
-
-   for (i; i < array1.length; i++) {
-      resultArray.push(array1[i]);
-   }
-   for (j; j < array2.length; j++) {
-      resultArray.push(array2[j]);
-   }
-
    return resultArray;
 }
