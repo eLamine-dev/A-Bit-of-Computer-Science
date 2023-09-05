@@ -15,23 +15,32 @@ const buildTree = (array, start = 0, end = array.length - 1) => {
 
 function Tree(array) {
    let tree = {};
-   let sortedArray = mergeSort(array);
+   let sortedArray = array.length > 0 ? mergeSort(array) : null;
 
-   tree.root = buildTree(sortedArray);
+   tree.root = sortedArray ? buildTree(sortedArray) : null;
 
-   tree.insert = (value, currentNode = tree.root) => {
-      if (currentNode === null) {
-         currentNode = createNode(value);
+   // tree.insert = (value) => {
+   //    tree.root = tree.insertRec(value, tree.root);
+   // };
+
+   tree.insert = (value) => {
+      const insertRec = (value, currentNode) => {
+         if (currentNode === null) {
+            currentNode = createNode(value);
+
+            return currentNode;
+         }
+
+         if (value > currentNode.data) {
+            currentNode.right = insertRec(value, currentNode.right);
+         } else if (value < currentNode.data) {
+            currentNode.left = insertRec(value, currentNode.left);
+         }
+
          return currentNode;
-      }
+      };
 
-      if (value > currentNode.data) {
-         currentNode.right = tree.insert(value, currentNode.right);
-      } else if (value < currentNode.data) {
-         currentNode.left = tree.insert(value, currentNode.left);
-      }
-
-      return currentNode;
+      tree.root = insertRec(value, tree.root);
    };
 
    return tree;
@@ -50,8 +59,8 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
    }
 };
 
-let myTree = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+let myTree = Tree([]);
+console.log(myTree);
 
-myTree.insert(6);
-
+console.log(myTree);
 prettyPrint(myTree.root);
