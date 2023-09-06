@@ -75,6 +75,39 @@ function Tree(array) {
       }
       return root;
    };
+
+   // recursive levelOrder
+   bst.levelOrder = (callBack) => {
+      let queue = [];
+      queue.push(bst.root);
+
+      const levelOrderRec = (node) => {
+         if (node === null) return;
+         else if (queue.length > 0) {
+            callBack(queue.shift());
+            if (node.left !== null) queue.push(node.left);
+            if (node.right !== null) queue.push(node.right);
+            levelOrderRec(queue[0]);
+         }
+      };
+
+      levelOrderRec(queue[0]);
+   };
+
+   // non recursive levelOrder
+   bst.levelOrder2 = (callBack) => {
+      if (bst.root === null) return;
+      let queue = [];
+      queue.push(bst.root);
+
+      while (queue.length > 0) {
+         let currentNode = queue.shift();
+         callBack(currentNode);
+         if (currentNode.left !== null) queue.push(currentNode.left);
+         if (currentNode.right !== null) queue.push(currentNode.right);
+      }
+   };
+
    return bst;
 }
 
@@ -93,11 +126,17 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 let myTree = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
-myTree.insert(10);
+// myTree.insert(10);
 
-prettyPrint(myTree.root);
+// prettyPrint(myTree.root);
 
-myTree.delete(8);
-myTree.delete(10);
+// myTree.delete(8);
+// myTree.delete(10);
 prettyPrint(myTree.root);
-console.log(myTree.find(125));
+// console.log(myTree.find(324));
+
+function log(node) {
+   console.log(node.data);
+}
+
+myTree.levelOrder(log);
