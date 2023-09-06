@@ -14,36 +14,56 @@ const buildTree = (array, start = 0, end = array.length - 1) => {
 };
 
 function Tree(array) {
-   let tree = {};
+   let bst = {};
    let sortedArray = array.length > 0 ? mergeSort(array) : null;
 
-   tree.root = sortedArray ? buildTree(sortedArray) : null;
+   bst.root = sortedArray ? buildTree(sortedArray) : null;
 
-   // tree.insert = (value) => {
-   //    tree.root = tree.insertRec(value, tree.root);
-   // };
-
-   tree.insert = (value) => {
-      const insertRec = (value, currentNode) => {
+   bst.insert = (value) => {
+      const insertNode = (value, currentNode) => {
          if (currentNode === null) {
             currentNode = createNode(value);
-
             return currentNode;
          }
-
          if (value > currentNode.data) {
-            currentNode.right = insertRec(value, currentNode.right);
+            currentNode.right = insertNode(value, currentNode.right);
          } else if (value < currentNode.data) {
-            currentNode.left = insertRec(value, currentNode.left);
+            currentNode.left = insertNode(value, currentNode.left);
          }
-
          return currentNode;
       };
-
-      tree.root = insertRec(value, tree.root);
+      bst.root = insertNode(value, bst.root);
    };
 
-   return tree;
+   bst.delete = (value) => {
+      function deleteNode(value, root) {
+         if (root === null) return root;
+         if (value > root.data) {
+            root.right = deleteNode(value, root.right);
+         } else if (value < root.data) {
+            root.left = deleteNode(value, root.left);
+         } else {
+            if (root.left !== null && root.right !== null) {
+               function findMin(node) {
+                  if (node.left == null) return node.data;
+                  return findMin(node.left);
+               }
+               let minRight = findMin(root.right);
+               root.data = minRight;
+               root.right = deleteNode(root.data, root.right);
+            } else if (root.left == null) {
+               root = root.right;
+            } else if (root.right == null) {
+               root = root.left;
+            }
+         }
+
+         return root;
+      }
+
+      bst.root = deleteNode(value, bst.root);
+   };
+   return bst;
 }
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
@@ -59,8 +79,12 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
    }
 };
 
-let myTree = Tree([]);
-console.log(myTree);
+let myTree = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
-console.log(myTree);
+myTree.insert(10);
+
+prettyPrint(myTree.root);
+
+myTree.delete(67);
+myTree.delete(10);
 prettyPrint(myTree.root);
