@@ -63,6 +63,18 @@ function Tree(array) {
 
       bst.root = deleteNode(value, bst.root);
    };
+
+   bst.find = (value, root = bst.root) => {
+      if (root === null) return 'Value non found';
+      if (root.data === value) return root;
+
+      if (value > root.data) {
+         root = bst.find(value, root.right);
+      } else if (value < root.data) {
+         root = bst.find(value, root.left);
+      }
+      return root;
+   };
    return bst;
 }
 
@@ -85,6 +97,7 @@ myTree.insert(10);
 
 prettyPrint(myTree.root);
 
-myTree.delete(67);
+myTree.delete(8);
 myTree.delete(10);
 prettyPrint(myTree.root);
+console.log(myTree.find(125));
