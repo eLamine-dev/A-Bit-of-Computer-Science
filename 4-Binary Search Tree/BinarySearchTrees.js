@@ -1,5 +1,6 @@
 import createNode from './node.js';
 import mergeSort from '../2-Merge sort/mergeSort.js';
+import prettyPrint from './prettyPrint.js';
 
 const buildTree = (array, start = 0, end = array.length - 1) => {
    if (start > end) return null;
@@ -80,18 +81,23 @@ function Tree(array) {
    bst.levelOrder = (callBack) => {
       let queue = [];
       queue.push(bst.root);
+      let array = [];
 
       const levelOrderRec = (node) => {
          if (node === null) return;
          else if (queue.length > 0) {
-            callBack(queue.shift());
+            let currentNode = queue.shift();
+
+            callBack ? callBack(currentNode) : array.push(currentNode.data);
+
             if (node.left !== null) queue.push(node.left);
             if (node.right !== null) queue.push(node.right);
             levelOrderRec(queue[0]);
          }
+         if (!callBack) return array;
       };
 
-      levelOrderRec(queue[0]);
+      return levelOrderRec(queue[0]);
    };
 
    // non recursive levelOrder
@@ -99,30 +105,56 @@ function Tree(array) {
       if (bst.root === null) return;
       let queue = [];
       queue.push(bst.root);
+      let array = [];
 
       while (queue.length > 0) {
          let currentNode = queue.shift();
-         callBack(currentNode);
+         callBack ? callBack(currentNode) : array.push(currentNode.data);
          if (currentNode.left !== null) queue.push(currentNode.left);
          if (currentNode.right !== null) queue.push(currentNode.right);
       }
+
+      if (!callBack) return array;
+   };
+
+   bst.inOrder = (callBack, currentNode = bst.root, array = []) => {
+      if (currentNode === null) return;
+
+      if (currentNode.left !== null)
+         bst.inOrder(callBack, currentNode.left, array);
+      callBack ? callBack(currentNode) : array.push(currentNode.data);
+      if (currentNode.right !== null)
+         bst.inOrder(callBack, currentNode.right, array);
+
+      if (!callBack) return array;
+   };
+
+   bst.preOrder = (callBack, currentNode = bst.root, array = []) => {
+      if (currentNode === null) return;
+      callBack ? callBack(currentNode) : array.push(currentNode.data);
+      if (currentNode.left !== null)
+         bst.preOrder(callBack, currentNode.left, array);
+      if (currentNode.right !== null)
+         bst.preOrder(callBack, currentNode.right, array);
+
+      if (!callBack) return array;
+   };
+
+   bst.postOrder = (callBack, currentNode = bst.root, array = []) => {
+      if (currentNode === null) return;
+
+      if (currentNode.left !== null)
+         bst.postOrder(callBack, currentNode.left, array);
+      if (currentNode.right !== null)
+         bst.postOrder(callBack, currentNode.right, array);
+
+      callBack ? callBack(currentNode) : array.push(currentNode.data);
+
+      if (!callBack) return array;
    };
 
    return bst;
 }
-
-const prettyPrint = (node, prefix = '', isLeft = true) => {
-   if (node === null) {
-      return;
-   }
-   if (node.right !== null) {
-      prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
-   }
-   console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
-   if (node.left !== null) {
-      prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
-   }
-};
 
 let myTree = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
@@ -135,8 +167,16 @@ let myTree = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(myTree.root);
 // console.log(myTree.find(324));
 
-function log(node) {
+function logValue(node) {
    console.log(node.data);
 }
 
-myTree.levelOrder(log);
+// console.log(myTree.levelOrder(log));
+// console.log(myTree.levelOrder());
+
+// console.log(myTree.levelOrder2(log));
+// console.log(myTree.levelOrder2());
+
+console.table([myTree.preOrder(), myTree.inOrder(), myTree.postOrder()]);
+// console.table(myTree.inOrder());
+// console.table(myTree.postOrder());
