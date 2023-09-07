@@ -253,8 +253,7 @@ function MakeBST(array) {
 }
 
 //testing
-
-let array = randomArray(100, 50, 150);
+let array = randomArray(40, 50, 150);
 
 let myTree = MakeBST(array);
 
@@ -262,7 +261,7 @@ prettyPrint(myTree.root);
 console.log(myTree.isBalanced());
 console.log(myTree.preOrder(), myTree.inOrder(), myTree.postOrder());
 
-let array2 = randomArray(100, 0, 200);
+let array2 = randomArray(30, 0, 200);
 
 array2.forEach((num) => {
    myTree.insert(num);
@@ -280,7 +279,7 @@ function logValue(node) {
    console.log(node.data);
 }
 
-myTree.inOrder(logValue);
+// myTree.inOrder(logValue);
 
 // console.log(myTree.levelOrder(log));
 // console.log(myTree.levelOrder());
