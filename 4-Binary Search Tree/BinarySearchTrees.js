@@ -153,17 +153,108 @@ function Tree(array) {
       if (!callBack) return array;
    };
 
+   bst.hight = (value) => {
+      let hight = -1;
+
+      function nodeHight(root, value) {
+         if (root === null) return -1;
+
+         let hightLeft = nodeHight(root.left, value);
+         let hightRight = nodeHight(root.right, value);
+         let currentHight = Math.max(hightLeft, hightRight) + 1;
+
+         if (root.data === value) hight = currentHight;
+         return currentHight;
+      }
+      nodeHight(bst.root, value);
+      return hight;
+   };
+
+   // height using find function and passing the found node to the nodeHight helper function
+   bst.hight2 = (value) => {
+      let node = bst.find(value);
+
+      function nodeHight(root, hight = 0) {
+         if (root === null) return -1;
+         else {
+            let hightLeft = nodeHight(root.left, hight);
+            let hightRight = nodeHight(root.right, hight);
+            hight = Math.max(hightLeft, hightRight) + 1;
+         }
+         return hight;
+      }
+      return nodeHight(node);
+   };
+
+   bst.depth = (value, root = bst.root, depth = 0) => {
+      if (root === null) return 'Node not found';
+      if (root.data === value) return depth;
+      else if (value > root.data) {
+         depth = bst.depth(value, root.right, depth + 1);
+      } else if (value < root.data) {
+         depth = bst.depth(value, root.left, depth + 1);
+      }
+
+      return depth;
+   };
+
+   // isBalanced my solution
+   bst.isBalanced2 = () => {
+      let result = true;
+      function getHeight(root, height = -1) {
+         if (root === null) return -1;
+
+         let hightLeft = getHeight(root.left);
+         let hightRight = getHeight(root.right);
+         height = Math.max(hightLeft, hightRight) + 1;
+
+         if (Math.abs(hightLeft - hightRight) > 1) {
+            result = false;
+         }
+         return height;
+      }
+      getHeight(bst.root);
+      return result;
+   };
+
+   // inspired from geeks4geeks
+   bst.isBalanced = (root = bst.root) => {
+      function getHeight(root) {
+         if (root == null) return 0;
+         return Math.max(getHeight(root.left), getHeight(root.right)) + 1;
+      }
+
+      if (root === null) return true;
+
+      let hightLeft = getHeight(root.left);
+      let hightRight = getHeight(root.right);
+
+      if (
+         Math.abs(hightLeft - hightRight) <= 1 &&
+         bst.isBalanced(root.left) &&
+         bst.isBalanced(root.right)
+      ) {
+         return true;
+      }
+      return false;
+   };
+
    return bst;
 }
 
-let myTree = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+let myTree = Tree([
+   1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 32, 36, 40, 20, 85, 37, 6345, 324,
+]);
 
-// myTree.insert(10);
+// myTree.insert(21);
 
 // prettyPrint(myTree.root);
 
-// myTree.delete(8);
-// myTree.delete(10);
+myTree.delete(8);
+myTree.delete(4);
+// myTree.delete(1);
+// myTree.delete(3);
+myTree.delete(4);
 prettyPrint(myTree.root);
 // console.log(myTree.find(324));
 
@@ -180,3 +271,11 @@ function logValue(node) {
 console.table([myTree.preOrder(), myTree.inOrder(), myTree.postOrder()]);
 // console.table(myTree.inOrder());
 // console.table(myTree.postOrder());
+
+// console.log(myTree.hight(36));
+// console.log(myTree.hight2(36));
+// console.log(myTree.depth(6345));
+// console.log(myTree.depth(253));
+
+console.log(myTree.isBalanced());
+console.log(myTree.isBalanced2());
